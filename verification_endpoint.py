@@ -12,7 +12,7 @@ app.url_map.strict_slashes = False
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
     content = request.get_json(silent=True)
-
+#My code starts here
     payload = content['payload']
     private_key = content['sig']
     public_key = payload['pk'] 
@@ -20,9 +20,9 @@ def verify():
     message = json.dumps(payload) 
     result = False
     if platform == 'Ethereum':
-        eth_encoded_msg = eth_account.messages.encode_defunct(text=message)
+        msg_eth = eth_account.messages.encode_defunct(text=message)
 
-        if eth_account.Account.recover_message(eth_encoded_msg, signature=private_key) == public_key:
+        if eth_account.Account.recover_message(msg_eth, signature=private_key) == public_key:
             print("Eth sig verifies")
             result = True
 
