@@ -21,13 +21,15 @@ def verify():
     result = False
     if platform == 'Ethereum':
         msg_eth = eth_account.messages.encode_defunct(txt=msg)
+
         if eth_account.Account.recover_message(msg_eth, signature=private_key) == public_key:
             print("Eth sig verifies!")
             result = True
+
     elif platform == 'Algorand':
-        if algosdk.util.verify_bytes(message.encode('utf-8'),private_key,public_key):
+        if algosdk.util.verify_bytes(msg.encode('utf-8'), private_key, public_key):
             print("Algo sig verifies!")
-            result = True #Should only be true if signature validates
+            result = True
 
     return jsonify(result)
 
